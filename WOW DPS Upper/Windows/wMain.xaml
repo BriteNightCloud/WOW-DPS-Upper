@@ -17,8 +17,8 @@
             <StackPanel Orientation="Vertical">
                 <Label Content="Файл с логами" Padding="0,0,0,4px"/>
                 <StackPanel Orientation="Horizontal">
-                    <TextBox Padding="5px" Width="425px"/>
-                    <Button Padding="10px,0" Content="..."/>
+                    <TextBox x:Name="tbPath" Padding="5px" Width="425px"/>
+                    <Button Padding="10px,0" Content="..." Click="Button_Click"/>
                 </StackPanel>
             </StackPanel>
 
@@ -32,8 +32,8 @@
 
             <!-- Расчет DPS -->
             <StackPanel Orientation="Horizontal" Margin="0,10px,0,0">
-                <TextBlock Text="Ваш ДПС:" Margin="0,0,5px,0" Padding="0,5px"/>
-                <TextBlock x:Name="tbDPS" Padding="0,5px" Width="250px" IsEnabled="False"/>
+                <TextBlock Text="Ваш ДПС:" Margin="0,0,10px,0" Padding="0,5px"/>
+                <TextBlock x:Name="tbDPS" Text="None" Padding="0,5px" Width="250px" IsEnabled="False"/>
             </StackPanel>
             
             <!-- Увеличение DPS -->

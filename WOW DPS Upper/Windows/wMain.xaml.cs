@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace WOW_DPS_Upper.Windows
 {
@@ -23,6 +24,8 @@ namespace WOW_DPS_Upper.Windows
         {
             InitializeComponent();
         }
+
+        OpenFileDialog filePath = new OpenFileDialog();
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -45,6 +48,20 @@ namespace WOW_DPS_Upper.Windows
         private void sScale_Update(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             tbScale.Text = Math.Round(sScale.Value, 2).ToString();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            filePath.InitialDirectory = "C:\\";
+            filePath.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            filePath.FilterIndex = 2;
+            filePath.RestoreDirectory = true;
+
+            if (filePath.ShowDialog() == true)
+            {
+                // Set the path of specified file
+                tbPath.Text = filePath.FileName;
+            }
         }
     }
 }
