@@ -17,8 +17,8 @@
             <StackPanel Orientation="Vertical">
                 <Label Content="Файл с логами" Padding="0,0,0,4px"/>
                 <StackPanel Orientation="Horizontal">
-                    <TextBox x:Name="tbPath" Padding="5px" Width="425px"/>
-                    <Button Padding="10px,0" Content="..." Click="Button_Click"/>
+                    <TextBox x:Name="tbPath" Padding="5px" Width="425px" IsTabStop="False" Focusable="False" AllowDrop="False" IsEnabled="False"/>
+                    <Button Padding="10px,0" Content="..." Click="Select_Path"/>
                 </StackPanel>
             </StackPanel>
 
@@ -26,7 +26,7 @@
             <StackPanel Orientation="Horizontal" Margin="0,10px,0,0">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Ник-сервер" Padding="0,0,0,4px"/>
-                    <ComboBox Padding="5px" Width="425px" x:Name="cbServer"/>
+                    <ComboBox Padding="5px" Width="425px" x:Name="cbName"/>
                 </StackPanel>
             </StackPanel>
 
