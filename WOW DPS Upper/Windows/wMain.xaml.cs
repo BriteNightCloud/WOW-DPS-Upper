@@ -26,13 +26,37 @@ namespace WOW_DPS_Upper.Windows
             InitializeComponent();
         }
 
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             spAll.Visibility = Visibility.Visible;
             spAll.IsEnabled = true;
         }
 
-        private void RadioButton_Unchecked(object sender, RoutedEventArgs e)
+        enum EditMode
+        {
+            DPS,
+            HPS
+        }
+
+        // Содержит путь к файлу с логами
+        OpenFileDialog filePath = new OpenFileDialog();
+
+        // Содержит строки файла разбитые по параметрам
+        string[][] RowsElements;
+
+        // Содержит список игроков учавствовавших в бою
+        List<string> Players;
+
+        // Режим изменения логов. DPS или HPS
+        //EditMode mode = EditMode.DPS;
+
+        private void ChangeAll_Checked(object sender, RoutedEventArgs e)
+        {
+            spAll.Visibility = Visibility.Visible;
+            spAll.IsEnabled = true;
+        }
+
+        private void ChangeAll_Unchecked(object sender, RoutedEventArgs e)
         {
             spAll.Visibility = Visibility.Collapsed;
             spAll.IsEnabled = false;
@@ -49,12 +73,6 @@ namespace WOW_DPS_Upper.Windows
             tbScale.Text = Math.Round(sScale.Value, 2).ToString();
         }
 
-        // Содержит путь к файлу с логами
-        OpenFileDialog filePath = new OpenFileDialog();
-
-        // Содержит разбитый по параметрам файл
-        string[][] RowsElements;
-
         private void Select_Path(object sender, RoutedEventArgs e)
         {
             filePath.InitialDirectory = "C:\\";
@@ -67,6 +85,8 @@ namespace WOW_DPS_Upper.Windows
                 // Указывает путь к файлу в поле tbPath
                 tbPath.Text = filePath.FileName;
                 RowsElements = null;
+                Players = null;
+                cbName.ItemsSource = null;
                 UpdateFile();
             }
         }
@@ -103,6 +123,7 @@ namespace WOW_DPS_Upper.Windows
                     RowsElements[i] = FileRows[i].Split(',');
                 }
 
+                // Проверка является ли файл логом WoW и включен ли расширеный журнал боя
                 if (RowsElements?[0]?.Length == null || RowsElements[0].Length < 4 || (RowsElements[0][2] != "ADVANCED_LOG_ENABLED" && RowsElements[0][3] != "1"))
                 {
                     MessageBox.Show("Данный файл не является логом или у вас не включена расширенная запись логов!", "Ошибка открытия файла", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -110,17 +131,68 @@ namespace WOW_DPS_Upper.Windows
                     tbPath.Text = string.Empty;
                 }
             }
-            List<string> Players = new List<string>();
 
-            for (int i = 3; i < RowsElements.Length-1; i++)
+            Players = new List<string>();
+
+            // Поиск и добавление в список всех игроков участвовавших в бою
+            for (int i = 3; i < RowsElements.Length - 1; i++)
             {
-                if (Players.IndexOf(RowsElements[i][2]) == -1)
+                if (Players.IndexOf(RowsElements[i][2].Trim('"')) == -1 && RowsElements[i][1].Contains("Player"))
                 {
-                    Players.Add(RowsElements[i][2]);
+                    Players.Add(RowsElements[i][2].Trim('"'));
                 }
             }
 
+            // Вывод списка игроков в ComboBox
             cbName.ItemsSource = Players;
         }
+
+        private void cbName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //UpdatePS();
+        }
+
+        private void Apply_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        //private void UpdatePS()
+        //{
+        //    if (cbName.SelectedItem == null) return;
+
+        //    double weight = 0;
+
+        //    if (mode == EditMode.DPS)
+        //    {
+
+        //    }
+        //    else if (mode == EditMode.HPS)
+        //    {
+        //        for (int i = 3; i < RowsElements.Length - 1; i++)
+        //        {
+        //            if (RowsElements[i][2].Trim('"') == cbName.SelectedItem.ToString() && RowsElements[i][0].Contains("SPELL_HEAL"))
+        //            {
+
+        //            }
+        //        }
+        //    }
+        //}
+
+        //private void DPS_Click(object sender, RoutedEventArgs e)
+        //{
+        //    mode = EditMode.DPS;
+        //    tbMode.Text = "Ваш DPS:";
+        //    tbPS.Text = "None";
+        //    UpdatePS();
+        //}
+
+        //private void HPS_Click(object sender, RoutedEventArgs e)
+        //{
+        //    mode = EditMode.HPS;
+        //    tbMode.Text = "Ваш HPS:";
+        //    tbPS.Text = "None";
+        //    UpdatePS();
+        //}
     }
 }
