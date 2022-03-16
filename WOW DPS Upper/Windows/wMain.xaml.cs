@@ -23,5 +23,28 @@ namespace WOW_DPS_Upper.Windows
         {
             InitializeComponent();
         }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            spAll.Visibility = Visibility.Visible;
+            spAll.IsEnabled = true;
+        }
+
+        private void RadioButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            spAll.Visibility = Visibility.Collapsed;
+            spAll.IsEnabled = false;
+        }
+
+        private void Reset_Click(object sender, RoutedEventArgs e)
+        {
+            tbScale.Text = "0";
+            sScale.Value = 0;
+        }
+
+        private void sScale_Update(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            tbScale.Text = Math.Round(sScale.Value, 2).ToString();
+        }
     }
 }
