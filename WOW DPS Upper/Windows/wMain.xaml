@@ -26,7 +26,7 @@
             <StackPanel Orientation="Horizontal" Margin="0,10px,0,0">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Ник-сервер" Padding="0,0,0,4px"/>
-                    <ComboBox Padding="5px" Width="425px" x:Name="cbName" SelectionChanged="cbName_SelectionChanged"/>
+                    <ComboBox x:Name="cbName" Padding="5px" Width="425px" SelectionChanged="cbName_SelectionChanged" IsEnabled="False"/>
                 </StackPanel>
             </StackPanel>
 
@@ -64,8 +64,8 @@
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10px">
-            <Button Content="Применить" Padding="15px,5px" Margin="0,0,15px,0" Click="Apply_Click"/>
-            <Button Content="Сохранить как..." Padding="15px,5px"/>
+            <Button x:Name="btnApply" Content="Применить" Padding="15px,5px" Margin="0,0,15px,0" Click="Apply_Click" IsEnabled="False"/>
+            <Button x:Name="btnSaveAs" Content="Сохранить как..." Padding="15px,5px" IsEnabled="False" Click="SaveAs_Click"/>
         </StackPanel>
 
         <!-- Copyright -->

@@ -77,7 +77,7 @@ namespace WOW_DPS_Upper.Windows
         {
             filePath.InitialDirectory = "C:\\";
             filePath.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-            filePath.FilterIndex = 2;
+            filePath.FilterIndex = 1;
             filePath.RestoreDirectory = true;
 
             if (filePath.ShowDialog() == true)
@@ -129,6 +129,13 @@ namespace WOW_DPS_Upper.Windows
                     MessageBox.Show("Данный файл не является логом или у вас не включена расширенная запись логов!", "Ошибка открытия файла", MessageBoxButton.OK, MessageBoxImage.Error);
                     filePath = new OpenFileDialog();
                     tbPath.Text = string.Empty;
+                    cbName.IsEnabled = false;
+                    btnSaveAs.IsEnabled = false;
+                    btnApply.IsEnabled = false;
+                }
+                else
+                {
+                    cbName.IsEnabled = true;
                 }
             }
 
@@ -150,11 +157,51 @@ namespace WOW_DPS_Upper.Windows
         private void cbName_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //UpdatePS();
+            btnApply.IsEnabled = true;
+            btnSaveAs.IsEnabled = true;
         }
 
         private void Apply_Click(object sender, RoutedEventArgs e)
         {
+            for (int i = 3; i < RowsElements.Length - 1; i++)
+            {
+                if (RowsElements[i][0].IndexOf("SPELL_DAMAGE") != -1 && RowsElements[i][2].IndexOf(cbName.SelectedItem.ToString()) != -1)
+                {
+                    RowsElements[i][29] = Math.Round(int.Parse(RowsElements[i][29]) + (double.Parse(tbScale.Text) * (int.Parse(RowsElements[i][29])/100))).ToString();
+                }
+            }
+        }
 
+        private void SaveAs_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog newFile = new SaveFileDialog();
+            newFile.InitialDirectory = tbPath.Text;
+            newFile.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            newFile.FilterIndex = 1;
+            newFile.RestoreDirectory = true;
+
+            // Выбираем место назначения
+            if (newFile.ShowDialog() == true)
+            {
+                // Записываем измененные логи обратно в файл
+                using (StreamWriter sw = new StreamWriter(newFile.FileName))
+                {
+                    for (int i = 0; i < RowsElements.Length; i++)
+                    {
+                        for (int j = 0; j < RowsElements[i].Length; j++)
+                        {
+                            if (j != RowsElements[i].Length - 1)
+                            {
+                                sw.Write($"{RowsElements[i][j]},");
+                            }
+                            else
+                            {
+                                sw.Write($"{RowsElements[i][j]}\n");
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         //private void UpdatePS()
