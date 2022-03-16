@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WOW_DPS_Upper
+namespace WOW_DPS_Upper.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для wMain.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class wMain : Window
     {
-        public MainWindow()
+        public wMain()
         {
             InitializeComponent();
         }
